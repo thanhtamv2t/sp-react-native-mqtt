@@ -102,6 +102,7 @@
                    certificates:nil
                   protocolLevel:MQTTProtocolVersion311
                  connectHandler:^(NSError *error) {
+                     NSLog(@"[KC MQTTS] connection error %@", error);
          }];
 
     } else {
@@ -142,6 +143,8 @@
                                               @"message": @"connecting"
                                               }];
             break;
+
+        // No emit error that match un
         case MQTTSessionManagerStateError: {
             NSError *lastError = self.manager.lastErrorCode;
             NSString *errorMsg = [NSString stringWithFormat:@"error: %@", [lastError localizedDescription]];
@@ -173,7 +176,7 @@
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
     [self.manager disconnectWithDisconnectHandler:^(NSError *error) {
     }];
-    
+
 }
 
 - (BOOL) isConnected {
